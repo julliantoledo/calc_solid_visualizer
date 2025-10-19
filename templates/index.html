@@ -1,0 +1,64 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Helix</title>
+    <script>
+        function addFunctionInput() {
+            const container = document.getElementById('functions-container');
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'function-input-group';
+
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'functions';
+            input.placeholder = 'Enter function (e.g. sin(x))';
+            input.required = true;
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.innerText = '✕';
+            removeBtn.onclick = () => container.removeChild(inputGroup);
+
+            inputGroup.appendChild(input);
+            inputGroup.appendChild(removeBtn);
+            container.appendChild(inputGroup);
+        }
+    </script>
+</head>
+<body>
+    <h1>Helix: Multi-Function Grapher</h1>
+    <form method="POST">
+        <div id="functions-container">
+            <div class="function-input-group">
+                <input type="text" name="functions" placeholder="Enter function (e.g. sin(x))" required>
+                <button type="button" onclick="this.parentElement.remove()">✕</button>
+            </div>
+        </div>
+        <button type="button" onclick="addFunctionInput()">+ Add Function</button>
+        <br><br>
+        <label>From x = <input type="number" step="any" name="a" required></label>
+        <label> to x = <input type="number" step="any" name="b" required></label>
+        <br><br>
+        <button type="submit">Plot Functions</button>
+    </form>
+    <button type="button" onclick="toggleExpressionList()">Hide Expression List</button>
+
+    <script>
+        function toggleExpressionList() {
+            const form = document.querySelector('form');
+            const toggleButton = event.target;
+
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                toggleButton.innerText = 'Hide Expression List';
+            } else {
+                form.style.display = 'none';
+                toggleButton.innerText = 'Show Expression List';
+            }
+        }
+    </script>
+    {% if plot_div %}{{ plot_div|safe }}{% endif %}
+</body>
+</html>
